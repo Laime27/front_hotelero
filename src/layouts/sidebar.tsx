@@ -22,6 +22,8 @@ import { Link, useLocation } from "react-router-dom";
 
 const menuItems = [
     { url: "/", nombre: "Dashboard", icon: Home },
+    { url: "/categorias", nombre: "Categorias", icon: Home },
+
 ];
 
 function DashboardSidebar() {
