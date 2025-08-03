@@ -1,35 +1,57 @@
 import { useEffect, useState } from "react";
-import { listarCategoria } from "../servicios/categoriaService";
-import type categoriaType from "../type";
+import {
+  listarCategoriaApi,
+  buscarCategoriaApi,
+} from "../service/categoriaService";
+import type { CategoriaType } from "../type/categoriaType";
 
 export function useCategorias() {
-  const [categorias, setCategorias] = useState<categoriaType[]>([]);
+  const [categorias, setCategorias] = useState<CategoriaType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const listarCategorias = async (page: number) => {
+  const listarCategorias = async (page: number = 1) => {
     try {
       setLoading(true);
-      const response = await listarCategoria(page);
+      const response = await listarCategoriaApi(page);
       if (response?.status === 200) {
         setCategorias(response.data.data);
         setLastPage(response.data.last_page);
         setCurrentPage(response.data.current_page);
-        setLoading(false);
       } else {
         setError(true);
       }
     } catch (error) {
       console.log(error);
       setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
   const cambiarPagina = (nuevaPagina: number) => {
     if (nuevaPagina > 0 && nuevaPagina <= lastPage) {
       setCurrentPage(nuevaPagina);
+    }
+  };
+
+  const buscarCategorias = async (nombre: string) => {
+    try {
+      setLoading(true);
+      const response = await buscarCategoriaApi(nombre);
+      if (response?.status === 200) {
+        setCategorias(response.data.data);
+        setLastPage(response.data.last_page);
+      } else {
+        setError(true);
+      }
+    } catch (error) {
+      console.log(error);
+      setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,5 +66,7 @@ export function useCategorias() {
     loading,
     error,
     cambiarPagina,
+    listarCategorias,
+    buscarCategorias,
   };
 }

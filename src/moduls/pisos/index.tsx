@@ -1,33 +1,32 @@
+import { usePisos } from "./hooks/usePisos";
+import TablaPiso from "./component/tablaPiso";
 import { Card, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import ModalPiso from "./component/modalPiso";
+import { Search , Plus} from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import { Plus } from "lucide-react";
-import ModalCategoria from "./component/modalCategoria";
-import TablaCategoria from "./component/tablaCategoria";
-import { useCategorias } from "./hooks/useCategoria";
+import { Button } from "@/components/ui/button";
 import useToggle from "@/hooks/useToggle";
 import { useDebounce } from "use-debounce";
 import { useEffect } from "react";
 
-
-export default function Categorias() {
+export default function Pisos() {
   const {
-    categorias,
+    pisos,
     currentPage,
     lastPage,
     loading,
     error,
     cambiarPagina,
-    listarCategorias,
-    buscarCategorias,
-  } = useCategorias();
-  
+    listarPisos,
+    buscarPisos,
+  } = usePisos();
+
   const { open, toggle } = useToggle(false);
+
   const [debouncedSearch, setDebouncedSearch] = useDebounce("", 1000);
 
   useEffect(() => {
-    buscarCategorias(debouncedSearch);
+    buscarPisos(debouncedSearch);
   }, [debouncedSearch]);
 
   return (
@@ -39,7 +38,7 @@ export default function Categorias() {
               <Search className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
               <Input
                 type="text"
-                placeholder="Buscar categoría..."
+                placeholder="Buscar piso..."
                 className="pl-10"
                 onChange={(e) => setDebouncedSearch(e.target.value)}
               />
@@ -47,26 +46,25 @@ export default function Categorias() {
 
             <Button onClick={toggle}>
               <Plus className="mr-2 h-4 w-4" />
-              Agregar categoría
+              Agregar piso
             </Button>
-            
-            <ModalCategoria
+            <ModalPiso
               id={null}
               open={open}
               setOpen={toggle}
-              listarCategorias={listarCategorias}
+              listarPisos={listarPisos}
             />
           </div>
         </CardHeader>
 
-        <TablaCategoria
-          categorias={categorias}
+        <TablaPiso
+          pisos={pisos}
           currentPage={currentPage}
           lastPage={lastPage}
           cambiarPagina={cambiarPagina}
           loading={loading}
           error={error}
-          listarCategorias={listarCategorias}
+          listarPisos={listarPisos}
         />
       </Card>
     </div>

@@ -7,50 +7,57 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Paginacion from "@/components/paginacion";
-import type { CategoriaType } from "../type/categoriaType";
+import type pisoType from "../type/pisoType";
 import { Button } from "@/components/ui/button";
-import ModalCategoria from "./modalCategoria";
+import ModalPiso from "./modalPiso";
 import { useState } from "react";
 import { Pencil } from "lucide-react";
 import useToggle from "@/hooks/useToggle";
 
-interface Props {
-    categorias: CategoriaType[];
-    currentPage: number;
-    lastPage: number;
-    cambiarPagina: (nuevaPagina: number) => void;
-    loading: boolean;
-    error: boolean;
-    listarCategorias: () => void;
-}
-
-export default function TablaCategoria({
-  categorias,
+export default function TablaPiso({
+  pisos,
   currentPage,
   lastPage,
   cambiarPagina,
   loading,
   error,
-  listarCategorias,
-}: Props) {
+  listarPisos,
+}: {
+  pisos: pisoType[];
+  currentPage: number;
+  lastPage: number;
+  cambiarPagina: (nuevaPagina: number) => void;
+  loading: boolean;
+  error: boolean;
+  listarPisos: () => void;
+}) {
   const { open, toggle } = useToggle(false);
-  const [categoria_id, setCategoria_id] = useState<number | null>(null);
+  const [piso_id, setPiso_id] = useState<number | null>(null);
 
-  const editarCategoria = (id: number) => {
-    setCategoria_id(id);
+  const editarPiso = (id: number) => {
+    setPiso_id(id);
     toggle();
   };
 
-  if (loading) {
-    return <div className="text-center py-10 text-gray-500">Cargando categorías...</div>;
-  }
-
   if (error) {
-    return <div className="text-center py-10 text-red-500">Ocurrió un error al cargar las categorías.</div>;
+    return (
+      <div className="text-center py-10 text-red-500">
+        Ocurrió un error al cargar los pisos.
+      </div>
+    );
   }
 
-  if (categorias.length === 0) {
-    return <div className="text-center py-10">No hay categorías disponibles.</div>;
+  if (loading) {
+    return (
+      <div className="text-center py-10 text-gray-500">
+        Cargando pisos...
+      </div>
+    );
+  }
+  if (pisos.length === 0) {
+    return (
+      <div className="text-center py-10">No hay pisos disponibles.</div>
+    );
   }
 
   return (
@@ -64,14 +71,14 @@ export default function TablaCategoria({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {categorias.map((categoria, index) => (
-            <TableRow key={categoria.id}>
+          {pisos.map((piso, index) => (
+            <TableRow key={piso.id}>
               <TableCell>{index + 1 + (currentPage - 1) * 10}</TableCell>
-              <TableCell>{categoria.nombre}</TableCell>
+              <TableCell>{piso.nombre}</TableCell>
               <TableCell>
                 <Button
                   variant="outline"
-                  onClick={() => editarCategoria(categoria.id)}
+                  onClick={() => editarPiso(piso.id)}
                 >
                   <Pencil />
                 </Button>
@@ -90,9 +97,7 @@ export default function TablaCategoria({
         />
       </div>
 
-    
-        <ModalCategoria id={categoria_id} open={open} setOpen={toggle} listarCategorias={listarCategorias} />
-      
+      <ModalPiso id={piso_id} open={open} setOpen={toggle} listarPisos={listarPisos} />
     </>
   );
 }

@@ -9,22 +9,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
-import useCategoriaForm from "../hooks/useCategoriaForm";
+import usePisoForm from "../hooks/usePisoForm";
 
-interface ModalCategoriaProps {
+interface modalPisoProps {
   id: number | null;
   open: boolean;
   setOpen: (open: boolean) => void;
-  listarCategorias: () => void;
+  listarPisos: () => void;
 }
 
-export default function ModalCategoria({
+export default function ModalPiso({
   id,
   open,
   setOpen,
-  listarCategorias,
-}: ModalCategoriaProps) {
-    
+  listarPisos,
+}: modalPisoProps) {
+
   const {
     form: {
       handleSubmit,
@@ -32,40 +32,44 @@ export default function ModalCategoria({
       formState: { errors },
       reset,
     },
-    cargarCategoria,
-    guardarCategoria,
+    cargarPiso,
+    guardarPiso,
     loading,
-  } = useCategoriaForm({ id, listarCategorias, setOpen });
+  } = usePisoForm({ id, listarPisos, setOpen });
 
   useEffect(() => {
-    cargarCategoria();
+    if (id !== null) {
+      cargarPiso();
+    }
   }, [id]);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen} >
+    <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent onPointerDownOutside={(e) => { e.preventDefault();  }} onCloseAutoFocus={() => reset()} >
-      <form onSubmit={handleSubmit(guardarCategoria)}>
+      
+           <form onSubmit={handleSubmit(guardarPiso)}>
           <DialogHeader>
             <DialogTitle className="mb-4">
-              {id ? "Editar categoría" : "Crear categoría"}
+              {id ? "Editar piso" : "Crear piso"}
               <span className="text-red-500">*</span>
             </DialogTitle>
+            <Input {...register("nombre")} placeholder="Nombre de piso" />
+              {errors.nombre && (
+                <p className="text-red-500 text-xs mt-1">{errors.nombre.message}</p>
+              )}
           </DialogHeader>
 
-          <Input {...register("nombre")} placeholder="Nombre de categoría" />
-          {errors.nombre && (
-            <p className="text-red-500 text-xs mt-1">{errors.nombre.message}</p>
-          )}
-
           <DialogFooter className="sm:justify-start mt-6">
-            <DialogClose asChild >
+            <DialogClose asChild>
               <Button type="button" variant="secondary">
                 Cerrar
               </Button>
             </DialogClose>
-            <Button disabled={loading} type="submit">{id ? "Actualizar" : "Crear"} {loading && "..."}</Button>
+            <Button type="submit" disabled={loading}>
+              {id ? "Actualizar" : "Crear"} {loading && "..."}
+            </Button>
           </DialogFooter>
-      </form>
+           </form>
         </DialogContent>
     </Dialog>
   );

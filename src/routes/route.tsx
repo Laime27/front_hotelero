@@ -1,6 +1,9 @@
 
 import Dashboard from "@/layouts/dashboard";
 import Categorias from "@/moduls/categorias/index";
+import Pisos from "@/moduls/pisos/index";
+import Habitaciones from "@/moduls/habitaciones/index";
+import CreateHabitacion from "@/moduls/habitaciones/create";
 
 export const routes = [ 
     {
@@ -11,8 +14,19 @@ export const routes = [
             path: "categorias",
             element: <Categorias />,
           },
-        
-         
+          {
+            path: "pisos",
+            element: <Pisos />,
+          },
+          {
+            path: "habitaciones",
+            element: <Habitaciones />,
+          },
+          {
+            path: "habitaciones/crear",
+            element: <CreateHabitacion />,
+          },
+          
         ],
       },
    

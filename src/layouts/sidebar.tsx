@@ -15,6 +15,10 @@ import {
   Home,
   Layers,
   Settings,
+  Building2,
+  BedDouble,
+  LayoutDashboard,
+  FolderKanban,
 } from "lucide-react";
 
 import { Link, useLocation } from "react-router-dom";
@@ -22,8 +26,10 @@ import { Link, useLocation } from "react-router-dom";
 
 const menuItems = [
     { url: "/", nombre: "Dashboard", icon: Home },
-    { url: "/categorias", nombre: "Categorias", icon: Home },
-
+    { url: "/categorias", nombre: "Categorias", icon: FolderKanban },
+    { url: "/pisos", nombre: "Pisos", icon: Building2 },
+    { url: "/habitaciones", nombre: "Habitaciones", icon: BedDouble },
+  
 ];
 
 function DashboardSidebar() {
