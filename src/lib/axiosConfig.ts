@@ -2,6 +2,7 @@ import axiosLib from "axios";
 
 const axios = axiosLib.create({
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -17,3 +18,7 @@ axios.interceptors.request.use((config) => {
 });
 
 export default axios;
+
+
+
+

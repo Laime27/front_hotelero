@@ -17,7 +17,6 @@ import {
   Settings,
   Building2,
   BedDouble,
-  LayoutDashboard,
   FolderKanban,
 } from "lucide-react";
 
@@ -29,7 +28,8 @@ const menuItems = [
     { url: "/categorias", nombre: "Categorias", icon: FolderKanban },
     { url: "/pisos", nombre: "Pisos", icon: Building2 },
     { url: "/habitaciones", nombre: "Habitaciones", icon: BedDouble },
-  
+    { url: "/clientes", nombre: "Clientes", icon: BedDouble },
+    { url: "/reservas", nombre: "Reservas", icon: BedDouble },
 ];
 
 function DashboardSidebar() {

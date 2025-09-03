@@ -31,7 +31,6 @@ export function useHabitaciones() {
     }
   };
  
- 
 
   return {
     listarCategorias,

@@ -2,12 +2,14 @@ import { crearHabitacionApi } from "../service/habitacionService";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import type { HabitacionType } from "../type/habitacionType";
 
 export function useHabitacionCreate() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
+    const [habitacion, setHabitacion] = useState<HabitacionType>();
+    
     const crearHabitacion = async (data: any) => {
         try { 
             setError(null);
@@ -30,6 +32,7 @@ export function useHabitacionCreate() {
         }
     };
 
+   
     return {
         crearHabitacion,
         loading,

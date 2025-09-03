@@ -1,4 +1,4 @@
-import {listarHabitacionesApi} from "../service/habitacionService";
+import {listarHabitacionesApi, buscarHabitacionApi, filtrosHabitacionesApi} from "../service/habitacionService";
 import type {HabitacionType} from "../type/habitacionType";
 import { useState } from "react";
 
@@ -30,9 +30,46 @@ export const useHabitacionList = () => {
         }
     };
 
-   
+   const buscarHabitaciones = async (nombre: string) => {
+       try {
+         setLoading(true);
+         const response = await buscarHabitacionApi(nombre);
+         if (response?.status === 200) {
+           setHabitaciones(response.data.data);
+           setLastPage(response.data.last_page);
+         } else {
+           setError(true);
+         }
+       } catch (error) {
+         console.log(error);
+         setError(true);
+       } finally {
+         setLoading(false);
+       }
+     };
 
-    return { listarHabitaciones, habitaciones, currentPage, lastPage, loading, error };
+
+     const filtrosHabitaciones = async (data: any) => {
+       try {
+         setLoading(true);
+         const response = await filtrosHabitacionesApi(data);
+         if (response?.status === 200) {
+           setHabitaciones(response.data.data);
+           setLastPage(response.data.last_page);
+         } else {
+           setError(true);
+         }
+       } catch (error) {
+         console.log(error);
+         setError(true);
+       } finally {
+         setLoading(false);
+       }
+     };
+   
+    
+
+    return { listarHabitaciones, habitaciones, currentPage, lastPage, loading, error, buscarHabitaciones, filtrosHabitaciones };
 };
 
 

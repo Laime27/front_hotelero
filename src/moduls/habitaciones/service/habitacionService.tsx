@@ -11,12 +11,26 @@ export const buscarHabitacionApi = (nombre: string) =>{
     return response
 }
 
+export const filtrosHabitacionesApi = (data: any) => {
+    return axios.get("/filtrosHabitacion", {
+      params: data
+    });
+  };
+
+export const actualizarHabitacionApi = (id: number, data: any) => {
+    return axios.put(`/habitaciones/${id}`, data);
+}
 
 export const crearHabitacionApi = (data: any) =>{
     const response = axios.post("/habitaciones", data)
     return response
 }
 
+export const ObtenerHabitacionApi = (id: number) =>{
+    const response = axios.get("/habitaciones/" + id)
+    return response; 
+    
+}
 
 
 

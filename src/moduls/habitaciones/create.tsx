@@ -2,26 +2,40 @@ import HabitacionForm from "./component/habitacionForm";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { useHabitaciones } from "./hook/useHabitacion";
+import { useEffect } from "react";
+import { useHabitacionCreate } from "./hook/useHabitacionCreate";
+import { type HabitacionFormData } from "@/moduls/habitaciones/validations/validations";
 
 export default function CreateHabitacion() {
-  return (
-    <div className="container-fluid mx-auto p-6 max-w-4xl" >
-      <div className="flex flex-wrap items-center gap-4 mb-8">
-        <Link to="/habitaciones">
-          <Button variant="outline" size="sm">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Volver
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-4xl font-bold">Nueva Habitación</h1>
-          <p className="text-muted-foreground text-sm">
-            Completa los datos para registrar una habitación
-          </p>
-        </div>
-      </div>
+  const { listarCategorias, listarPisos, categorias, pisos } = useHabitaciones();
+  const { crearHabitacion, loading, error } = useHabitacionCreate();
+  
+  useEffect(() => {
+    listarCategorias();
+    listarPisos();
+  }, []);
+   
+  const handleSubmit = (data: HabitacionFormData) => {
+    crearHabitacion(data);
+  };
 
-      <HabitacionForm />
+  return (
+    <div className="container-fluid mx-auto px-6 max-w-4xl" >
+     
+
+      <HabitacionForm 
+        categorias={categorias}
+        pisos={pisos}
+        habitacion_id={null}
+        onSubmit={handleSubmit}
+        loading={loading}
+        error={error}
+        defaultValues={undefined}
+        
+      />
+
+        
     </div>
   );
 }
